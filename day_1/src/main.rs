@@ -1,6 +1,6 @@
 use std::fs;
 
-fn first_star() {
+fn first_star() -> Vec<i32> {
     let calories = fs::read_to_string(".\\src\\calories.txt").unwrap().replace("\r\n\r", ",").replace("\n", "");
     let cals_parsed: Vec<&str> = calories.split(",").collect();
     let mut cal_vec: Vec<i32> = Vec::new();
@@ -12,14 +12,17 @@ fn first_star() {
     }
 
     cal_vec.sort();
-    println!("The largest amount of calories carried by one elf is {:#?}.", cal_vec[cal_vec.len() - 1]);
+    return cal_vec;
+    
 }
 
-fn second_star() {
-    return;
+fn second_star(sorted_cals: Vec<i32>) -> i32 {
+    return sorted_cals.iter().rev().take(3).sum();
 }
 
 fn main() {
-    first_star();
-    second_star();
+    let sorted_cals = first_star();
+    println!("The largest amount of calories carried by one elf is {:#?}.", sorted_cals[sorted_cals.len() - 1]);
+    let summed_top_three = second_star(sorted_cals);
+    println!("The sum of the top three elves calories is {:#?}.", summed_top_three);
 }
