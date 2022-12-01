@@ -22,6 +22,7 @@ fn second_star(sorted_cals: Vec<i32>) -> i32 {
 fn main() {
     let sorted_cals: Vec<i32> = first_star();
     println!("The largest amount of calories carried by one elf is {:#?}.", sorted_cals[sorted_cals.len() - 1]);
+    
     let summed_top_three: i32 = second_star(sorted_cals);
     println!("The sum of the top three elves calories is {:#?}.", summed_top_three);
 }
