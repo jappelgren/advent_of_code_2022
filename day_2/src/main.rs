@@ -73,18 +73,18 @@ fn second_star() -> i32 {
         result += real_game_result(op_shape, my_shape)
     }
 
-    result    
+    result
 }
 
 fn real_game_result(op: char, me: char) -> i32 {
-    let win = ScoreResult {a: 8, b: 9, c: 7};
-    let draw = ScoreResult {a: 4, b: 5, c: 6};
-    let lose = ScoreResult {a: 3, b: 1, c: 2};
+    let win = ScoreResult { a: 8, b: 9, c: 7 };
+    let draw = ScoreResult { a: 4, b: 5, c: 6 };
+    let lose = ScoreResult { a: 3, b: 1, c: 2 };
 
     match me {
         'X' => lose.get(op),
         'Y' => draw.get(op),
         'Z' => win.get(op),
-        _ => panic!("Invalid argument passed {:#?}", me)
+        _ => panic!("Invalid argument passed {:#?}", me),
     }
 }
