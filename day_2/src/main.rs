@@ -1,9 +1,10 @@
 use std::fs;
 
 fn main() {
-    first_star();
+    println!("The first star results are: {:#?}", first_star());
 }
-// scoring
+
+// Scoring
 // Selected Shape + Outcome
 
 // Shapes:
@@ -16,9 +17,8 @@ fn main() {
 // Draw: 3
 // Lose: 0
 
-fn first_star() {
-    let games = fs::read_to_string(".\\src\\strategy_guide.txt").unwrap();
-    let games_collected: Vec<&str> = games.split("\r\n").collect();
+fn first_star() -> i32 {
+    let games_collected = parse_input();
     let mut result = 0;
 
     for game in games_collected {
@@ -27,7 +27,13 @@ fn first_star() {
         result += game_result(op_shape, my_shape)
     }
 
-    println!("{:#?}", result);
+    result
+}
+
+fn parse_input() -> Vec<&str> {
+    let games = fs::read_to_string(".\\src\\strategy_guide.txt").unwrap();
+    let games_collected = games.split("\r\n").collect();
+    games_collected
 }
 
 struct ScoreResult {
@@ -58,4 +64,12 @@ fn game_result(op: char, me: char) -> i32 {
         'Z' => scissor.get(op),
         _ => panic!("Invalid argument passed {:#?}", op),
     }
+}
+
+fn second_star() {
+
+}
+
+fn real_game_results() {
+
 }
