@@ -2,6 +2,7 @@ use std::fs;
 
 fn main() {
     println!("The first star results are: {:#?}", first_star());
+    println!("The second star results are: {:#?}", second_star());
 }
 
 // Scoring
@@ -18,7 +19,8 @@ fn main() {
 // Lose: 0
 
 fn first_star() -> i32 {
-    let games_collected = parse_input();
+    let games = fs::read_to_string(".\\src\\strategy_guide.txt").unwrap();
+    let games_collected: Vec<&str> = games.split("\r\n").collect();
     let mut result = 0;
 
     for game in games_collected {
@@ -28,12 +30,6 @@ fn first_star() -> i32 {
     }
 
     result
-}
-
-fn parse_input() -> Vec<&str> {
-    let games = fs::read_to_string(".\\src\\strategy_guide.txt").unwrap();
-    let games_collected = games.split("\r\n").collect();
-    games_collected
 }
 
 struct ScoreResult {
@@ -62,14 +58,33 @@ fn game_result(op: char, me: char) -> i32 {
         'X' => rock.get(op),
         'Y' => paper.get(op),
         'Z' => scissor.get(op),
-        _ => panic!("Invalid argument passed {:#?}", op),
+        _ => panic!("Invalid argument passed {:#?}", me),
     }
 }
 
-fn second_star() {
+fn second_star() -> i32 {
+    let games = fs::read_to_string(".\\src\\strategy_guide.txt").unwrap();
+    let games_collected: Vec<&str> = games.split("\r\n").collect();
+    let mut result = 0;
 
+    for game in games_collected {
+        let op_shape: char = game.chars().next().unwrap();
+        let my_shape: char = game.chars().nth(2).unwrap();
+        result += real_game_result(op_shape, my_shape)
+    }
+
+    result    
 }
 
-fn real_game_results() {
+fn real_game_result(op: char, me: char) -> i32 {
+    let win = ScoreResult {a: 8, b: 9, c: 7};
+    let draw = ScoreResult {a: 4, b: 5, c: 6};
+    let lose = ScoreResult {a: 3, b: 1, c: 2};
 
+    match me {
+        'X' => lose.get(op),
+        'Y' => draw.get(op),
+        'Z' => win.get(op),
+        _ => panic!("Invalid argument passed {:#?}", me)
+    }
 }
