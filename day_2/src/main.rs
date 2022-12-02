@@ -22,9 +22,9 @@ fn first_star() {
     let mut result = 0;
 
     for game in games_collected {
-        let op_shape: char = game.chars().nth(0).unwrap();
+        let op_shape: char = game.chars().next().unwrap();
         let my_shape: char = game.chars().nth(2).unwrap();
-        result = result + game_result(op_shape, my_shape)
+        result += game_result(op_shape, my_shape)
     }
 
     println!("{:#?}", result);
