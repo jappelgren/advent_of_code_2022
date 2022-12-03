@@ -10,16 +10,19 @@ fn first_star() -> i32 {
 
     let mut result: i32 = 0;
     for sack in parsed_input {
-        let sack_chars:Vec<u8> = Vec::from(sack);
+        // Converting string to chars yields ascii codes.
+        let sack_chars: Vec<u8> = Vec::from(sack);
         for item_char in &sack_chars[sack_chars.len() / 2..sack_chars.len()] {
             if sack_chars[..sack_chars.len() / 2].contains(item_char) {
                 let stringified_char_code = item_char.to_string();
+                // Converting these codes to string so they can be parsed as i32s
                 let mut item_value = stringified_char_code.parse::<i32>().unwrap();
 
+                // Subtracting enough from ascii codes to get base "priority"
                 if item_value > 90 {
-                    item_value = item_value - 96;
+                    item_value -= 96;
                 } else {
-                    item_value = item_value - 38;
+                    item_value -= 38;
                 }
                 result += item_value;
                 break;
@@ -30,6 +33,5 @@ fn first_star() -> i32 {
 }
 
 fn input_to_string() -> String {
-    let stringified_input = fs::read_to_string(".\\src\\rucksack_contents.txt").unwrap();
-    stringified_input
+    fs::read_to_string(".\\src\\rucksack_contents.txt").unwrap()
 }
