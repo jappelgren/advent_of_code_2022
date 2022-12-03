@@ -1,6 +1,6 @@
 //https://adventofcode.com/2022/day/3
 
-use std::{fs, collections::HashMap};
+use std::{collections::HashMap, fs};
 
 fn main() {
     println!("The first star result is {:?}", first_star());
@@ -48,16 +48,16 @@ fn second_star() -> i32 {
         let mut sack_chars: Vec<u8> = Vec::from(sack);
         sack_chars.sort_unstable();
         sack_chars.dedup();
-        
+
         all_items.push(sack_chars);
 
         if group_counter == 3 {
             let all_items_flattened: Vec<u8> = all_items.into_iter().flatten().collect();
             let mut count_map: HashMap<u8, i32> = HashMap::new();
-            
+
             for sack_char in all_items_flattened {
                 *count_map.entry(sack_char).or_insert(0) += 1;
-                
+
                 if count_map.get(&sack_char).unwrap() == &3 {
                     let stringified_char_code = sack_char.to_string();
                     let mut item_value = stringified_char_code.parse::<i32>().unwrap();
