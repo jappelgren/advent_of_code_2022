@@ -1,5 +1,8 @@
 //https://adventofcode.com/2022/day/3
 
+// a much cleaner simple solution:  
+// https://topaz.github.io/paste/#XQAAAQAOBAAAAAAAAAA6nMjJFMpQiatRvt7HtRFwhPwv9neWyWm+jI5/3aYo9/FVYjYugxGriHffv/nm1U2PaDdCSkYlHpJ3CSlD43LlE1NV87hGxjBXVbhGQBYXDPbnnF3EBsPlGpkJXcpZVRc95smIOae9tJRiF4e/OmW555bRZfLE1KX4LStDAPHXxMfNxELww9fJhvR/ADFSLEIwxtr0h7EbVEi6d5HVI4AmdJUg5JVklAx6tZVGtGJ6JV6MLqttIEk6KLStSJ53KGAGnyH/jMX1b3yTlRbHgriYzNO3f5o3894ntvIaXzyuS8tKs1pOdohdzkP1VdU3K4mSno89/ZBuzO0nFHPLgTuOYqrkVdB1gyUek9PYDkjK2t2yIDahMem64fw6JBybNC96kafNoRkMP3d7Ked8ZPXTvTULIoCwNZ8WSwP+YPjmfuxziMPBnsZwAy191ia23vBpG80y2tJG3ybbHOfEybdv7B2AKYhnzi2BQR/OqviE7iLgLmwaWKOkcsA0ceKY2ij1/+eWoRhFbJQ1EoIJUugWOU6LWZ18SqB3aLw4sXd/Tj/FMcpUrvTJYz7ldU08rZWdFkailI6aUoYnnnRvzP4PSTU=
+
 use std::{collections::HashMap, fs};
 
 fn main() {
