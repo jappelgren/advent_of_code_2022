@@ -3,7 +3,8 @@
 use std::fs;
 
 fn main() {
-    println!("The result for star one is: {:?}", first_star())
+    println!("The result for the first star is: {:?}", first_star());
+    println!("The result for the second star is: {:?}", second_star());
 }
 
 fn first_star() -> i32 {
@@ -27,6 +28,33 @@ fn first_star() -> i32 {
         flattened_sets.dedup();
 
         if flattened_sets.len() == larger_len {
+            result += 1;
+        }
+    }
+    result
+}
+
+fn second_star() -> usize {
+    let stringified_input: String = input_to_string();
+    let split_input: Vec<Vec<&str>> = stringified_input
+        .split("\r\n")
+        .collect::<Vec<&str>>()
+        .iter()
+        .map(|areas| areas.split(',').collect())
+        .collect();
+    let mut result = 0;
+    for range in split_input {
+        let mut parsed_range_set: Vec<Vec<i32>> = Vec::new();
+        for single_range in range {
+            parsed_range_set.push(create_range(single_range));
+        }
+
+        let combined_len = parsed_range_set[0].len() + parsed_range_set[1].len();
+        let mut flattened_sets: Vec<i32> = parsed_range_set.into_iter().flatten().collect();
+        flattened_sets.sort_unstable();
+        flattened_sets.dedup();
+
+        if flattened_sets.len() < combined_len {
             result += 1;
         }
     }
