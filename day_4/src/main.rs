@@ -30,7 +30,7 @@ fn first_star() -> i32 {
             result += 1;
         }
     }
-    return result;
+    result
 }
 
 fn create_range(range_str: &str) -> Vec<i32> {
@@ -40,7 +40,7 @@ fn create_range(range_str: &str) -> Vec<i32> {
         .iter()
         .map(|num| num.parse().unwrap())
         .collect();
-    return (split_range[0]..=split_range[1]).collect();
+    (split_range[0]..=split_range[1]).collect()
 }
 
 fn larger_len(first_vec: &Vec<i32>, second_vec: &Vec<i32>) -> usize {
