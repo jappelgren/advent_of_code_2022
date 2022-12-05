@@ -51,7 +51,7 @@ fn move_them(star: String) -> Vec<char> {
     result
 }
 
-fn move_stack(stacks: &mut Vec<Vec<char>>, instructions: String) {
+fn move_stack(stacks: &mut [Vec<char>], instructions: String) {
     let parsed_instructions: Vec<usize> = instructions
         .split(',')
         .map(|n| n.parse().unwrap())
@@ -63,7 +63,7 @@ fn move_stack(stacks: &mut Vec<Vec<char>>, instructions: String) {
     stacks[parsed_instructions[2] - 1].extend_from_slice(&stack_to_move);
 }
 
-fn move_one(stacks: &mut Vec<Vec<char>>, instructions: String) {
+fn move_one(stacks: &mut [Vec<char>], instructions: String) {
     let parsed_instructions: Vec<usize> = instructions
         .split(',')
         .map(|n| n.parse().unwrap())
