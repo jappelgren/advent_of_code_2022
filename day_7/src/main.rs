@@ -1,7 +1,4 @@
-use std::{
-    fs,
-    collections::HashMap
-};
+use std::{collections::HashMap, fs};
 
 use regex::Regex;
 
@@ -13,11 +10,17 @@ fn main() {
         .collect::<Vec<&str>>()
         .iter()
         .map(|instruction| re.replace_all(instruction, "").to_string())
-        .filter(|instruction| instruction != &format!("ls"))
+        .filter(|instruction| instruction != &"ls".to_string())
         .collect();
 
-    println!("The result for the first star is: {:?}", first_star(create_file_tree(&instructions)));
-    println!("The result for the second star is: {:?}", second_star(create_file_tree(&instructions)));
+    println!(
+        "The result for the first star is: {:?}",
+        first_star(create_file_tree(&instructions))
+    );
+    println!(
+        "The result for the second star is: {:?}",
+        second_star(create_file_tree(&instructions))
+    );
 }
 
 #[derive(Debug)]
@@ -29,32 +32,36 @@ struct FileTree {
 struct Directory {
     name: String,
     files: HashMap<String, File>,
-    directories: HashMap<String, Directory>
-    
+    directories: HashMap<String, Directory>,
 }
 
 impl Directory {
     fn create_file(&mut self, name: String, size: i32) {
-        let file: File = File{ name, size};
+        let file: File = File { name, size };
         self.files.insert(file.name.to_string(), file);
     }
-    
+
     fn create_dir(&mut self, name: String) {
-        let directory = Directory{ name, files: HashMap::new(), directories: HashMap::new() }; 
-        self.directories.insert(directory.name.to_string(), directory);
+        let directory = Directory {
+            name,
+            files: HashMap::new(),
+            directories: HashMap::new(),
+        };
+        self.directories
+            .insert(directory.name.to_string(), directory);
     }
 
-    fn get_files_size (&self) -> i32 {
+    fn get_files_size(&self) -> i32 {
         self.files.values().map(|file| file.size).sum()
     }
 
-    fn get_dir_total_size (&self) -> i32 {
+    fn get_dir_total_size(&self) -> i32 {
         let mut result = self.get_files_size();
 
         for dir in get_all_directories_in(self) {
             result += dir.get_files_size()
         }
-        
+
         result
     }
 }
@@ -67,19 +74,30 @@ struct File {
 
 fn create_file_tree(instructions: &Vec<String>) -> FileTree {
     let mut file_tree: FileTree = FileTree {
-        directories: HashMap::new()
+        directories: HashMap::new(),
     };
-    file_tree.directories.insert(format!("root"), Directory{name: format!("root"), directories: HashMap::new(), files: HashMap::new()});
-    let mut cur_dir = vec!(format!("root"));
-    
+    file_tree.directories.insert(
+        "root".to_string(),
+        Directory {
+            name: "root".to_string(),
+            directories: HashMap::new(),
+            files: HashMap::new(),
+        },
+    );
+    let mut cur_dir = vec![format!("root")];
+
     for instruction in instructions {
-        
-        let int_vec: Vec<&str> = instruction.split(" ").collect();
+        let int_vec: Vec<&str> = instruction.split(' ').collect();
 
         match int_vec[0] {
             "cd" => change_dir(&mut cur_dir, int_vec[1].to_string()),
-            "dir" => get_current_directory(&mut file_tree, &cur_dir).create_dir(int_vec[1].to_string()),
-            i if i.chars().any(|x| x.is_numeric()) => get_current_directory(&mut file_tree, &cur_dir).create_file(int_vec[1].to_string(), int_vec[0].parse().unwrap()),
+            "dir" => {
+                get_current_directory(&mut file_tree, &cur_dir).create_dir(int_vec[1].to_string())
+            }
+            i if i.chars().any(|x| x.is_numeric()) => {
+                get_current_directory(&mut file_tree, &cur_dir)
+                    .create_file(int_vec[1].to_string(), int_vec[0].parse().unwrap())
+            }
             _ => println!("Didn't expect input to contain {}", instruction),
         }
     }
@@ -87,15 +105,14 @@ fn create_file_tree(instructions: &Vec<String>) -> FileTree {
 }
 
 fn change_dir(dir_vec: &mut Vec<String>, change_string: String) {
-    if change_string == format!("..") {
+    if change_string == *".." {
         dir_vec.pop();
     } else {
         dir_vec.push(change_string);
     }
 }
 
-fn get_current_directory <'a> (file_tree: &'a mut FileTree, pwd: &Vec<String>) -> &'a mut Directory {
-
+fn get_current_directory<'a>(file_tree: &'a mut FileTree, pwd: &Vec<String>) -> &'a mut Directory {
     let mut curdir = file_tree.directories.get_mut(pwd.first().unwrap()).unwrap();
 
     for directory in pwd.iter().skip(1) {
@@ -105,9 +122,8 @@ fn get_current_directory <'a> (file_tree: &'a mut FileTree, pwd: &Vec<String>) -
     curdir
 }
 
-fn get_all_directories_in (directory: &Directory) -> Vec<&Directory> {
-
-    let mut directories: Vec<&Directory> = vec!();
+fn get_all_directories_in(directory: &Directory) -> Vec<&Directory> {
+    let mut directories: Vec<&Directory> = vec![];
 
     for directory in directory.directories.values() {
         directories.push(directory);
@@ -118,27 +134,33 @@ fn get_all_directories_in (directory: &Directory) -> Vec<&Directory> {
 }
 
 fn first_star(file_tree: FileTree) -> i32 {
-     let mut all_dirs = vec!(file_tree.directories.get("root").unwrap());
-     all_dirs.append(&mut get_all_directories_in(&all_dirs[0]));
+    let mut all_dirs = vec![file_tree.directories.get("root").unwrap()];
+    all_dirs.append(&mut get_all_directories_in(all_dirs[0]));
 
-     all_dirs
-     .iter()
-     .map(|dir| dir.get_dir_total_size())
-     .filter(|size| *size <= 100000)
-     .reduce(|a,b| a + b)
-     .unwrap()
+    all_dirs
+        .iter()
+        .map(|dir| dir.get_dir_total_size())
+        .filter(|size| *size <= 100000)
+        .reduce(|a, b| a + b)
+        .unwrap()
 }
 
 fn second_star(file_tree: FileTree) -> i32 {
-    let space_needed = 70000000 - file_tree.directories.get("root").unwrap().get_dir_total_size();
+    let space_needed = 70000000
+        - file_tree
+            .directories
+            .get("root")
+            .unwrap()
+            .get_dir_total_size();
 
-    let mut all_dirs = vec!(file_tree.directories.get("root").unwrap());
-    all_dirs.append(&mut get_all_directories_in(&all_dirs[0]));
+    let mut all_dirs = vec![file_tree.directories.get("root").unwrap()];
+    all_dirs.append(&mut get_all_directories_in(all_dirs[0]));
 
     let mut sizes: Vec<i32> = all_dirs
-    .iter()
-    .map(|dir| dir.get_dir_total_size())
-    .filter(|size| *size + space_needed >= 30000000).collect();
+        .iter()
+        .map(|dir| dir.get_dir_total_size())
+        .filter(|size| *size + space_needed >= 30000000)
+        .collect();
 
     sizes.sort_unstable();
 
