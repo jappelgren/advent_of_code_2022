@@ -1,3 +1,8 @@
+// https://adventofcode.com/2022/day/7
+
+// This one threw me a little.  I tried to do as much as I could without looking at anything, but got a little stuck and used this repo as a reference:
+// https://github.com/mvduijn/aoc2022/blob/main/day7/src/main.rs
+
 use std::{collections::HashMap, fs};
 
 use regex::Regex;

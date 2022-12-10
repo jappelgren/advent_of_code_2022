@@ -1,3 +1,4 @@
+// https://adventofcode.com/2022/day/6
 use std::fs;
 
 fn main() {
