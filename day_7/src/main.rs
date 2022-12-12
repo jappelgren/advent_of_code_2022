@@ -3,6 +3,8 @@
 // This one threw me a little.  I tried to do as much as I could without looking at anything, but got a little stuck and used this repo as a reference:
 // https://github.com/mvduijn/aoc2022/blob/main/day7/src/main.rs
 
+// There is definitely a memory leak in here somewhere
+
 use std::{collections::HashMap, fs};
 
 use regex::Regex;
@@ -28,12 +30,10 @@ fn main() {
     );
 }
 
-#[derive(Debug)]
 struct FileTree {
     directories: HashMap<String, Directory>,
 }
 
-#[derive(Debug)]
 struct Directory {
     name: String,
     files: HashMap<String, File>,
@@ -71,7 +71,6 @@ impl Directory {
     }
 }
 
-#[derive(Debug)]
 struct File {
     name: String,
     size: i32,
