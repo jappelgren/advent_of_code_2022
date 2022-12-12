@@ -24,7 +24,7 @@ fn first_star() -> usize {
         .into_iter()
         .map(|instruction| {
             (
-                instruction.split_at(2).0.chars().nth(0).unwrap(),
+                instruction.split_at(2).0.chars().next().unwrap(),
                 instruction.split_at(2).1.parse().unwrap(),
             )
         })
@@ -49,7 +49,7 @@ fn first_star() -> usize {
 }
 
 fn move_head(head_position: &mut PositionHistory, direction: char, steps: i32) {
-    for i in 1..=steps {
+    for _i in 1..=steps {
         let x = head_position.position.last().unwrap().x;
         let y = head_position.position.last().unwrap().y;
 
