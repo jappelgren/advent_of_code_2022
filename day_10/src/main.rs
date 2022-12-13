@@ -59,8 +59,8 @@ fn second_star() {
 }
 
 fn whats_on_the_screen(instructions: Vec<Vec<&str>>) {
-    let mut screen = format!("");
-    let screen_length: i32 = screen.clone().len().to_string().parse().unwrap();
+    let mut screen = String::new();
+    let _screen_length: i32 = screen.clone().len().to_string().parse().unwrap();
     let mut cycle_count = 0;
     let mut cycle_left = 0;
     let mut register: i32 = 1;
@@ -74,9 +74,9 @@ fn whats_on_the_screen(instructions: Vec<Vec<&str>>) {
                 || screen.clone().len().to_string().parse::<i32>().unwrap() - sub == register
                 || screen.clone().len().to_string().parse::<i32>().unwrap() - sub == register + 1
             {
-                screen.push_str("#");
+                screen.push('#');
             } else {
-                screen.push_str(".");
+                screen.push('.');
             }
             cycle_left -= 1;
             cycle_count += 1;
