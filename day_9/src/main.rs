@@ -41,7 +41,7 @@ fn first_star() -> usize {
     for instruction in input_parsed {
         move_head(&mut head_position, instruction.0, instruction.1)
     }
-    move_tail(&mut tail_position, &mut head_position);
+    move_tail(&mut tail_position, &head_position);
 
     tail_position.position.sort_unstable();
     tail_position.position.dedup();
@@ -100,15 +100,15 @@ fn tail_movement(head_x: i32, head_y: i32, tail_x: i32, tail_y: i32) -> (i32, i3
     let y_diff = tail_y - head_y;
 
     match (x_diff, y_diff) {
-        (-2,-2) => return (head_x - 1, head_y - 1),
-        (-2, 2) => return (head_x - 1, head_y + 1),
-        (2, -2) => return (head_x + 1, head_y - 1),
-        (2, 2) => return (head_x + 1, head_y + 1),
-        (-2, _) => return (head_x - 1, head_y),
-        (2, _) => return (head_x + 1, head_y),
-        (_, -2) => return (head_x, head_y - 1),
-        (_, 2) => return (head_x, head_y + 1),
-        _ => return (tail_x, tail_y)
+        (-2,-2) => (head_x - 1, head_y - 1),
+        (-2, 2) => (head_x - 1, head_y + 1),
+        (2, -2) => (head_x + 1, head_y - 1),
+        (2, 2) => (head_x + 1, head_y + 1),
+        (-2, _) => (head_x - 1, head_y),
+        (2, _) => (head_x + 1, head_y),
+        (_, -2) => (head_x, head_y - 1),
+        (_, 2) => (head_x, head_y + 1),
+        _ => (tail_x, tail_y)
     }
 }
 
