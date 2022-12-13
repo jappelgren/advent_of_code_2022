@@ -108,10 +108,8 @@ fn parse_result(result: String) {
     let (four, five_six) = four_five_six.split_at(40);
     let (five, six) = five_six.split_at(40);
 
-
     let result = format!("{}\n{}\n{}\n{}\n{}\n{}", one, two, three, four, five, six);
     println!("The result for the second star is:\n {}", result);
-    
 }
 
 fn input_to_string() -> String {
