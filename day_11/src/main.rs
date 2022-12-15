@@ -23,7 +23,7 @@ impl Monkey {
             .replace_all(&instructions, "")
             .into_owned();
         let parsed_input: Vec<String> = only_digits_commas
-            .split("\n")
+            .split('\n')
             .into_iter()
             .map(|val| val.to_string())
             .collect();
@@ -38,33 +38,33 @@ impl Monkey {
         let true_monkey = parsed_input[4].parse().unwrap();
         let false_monkey = parsed_input[5].parse().unwrap();
 
-        return Monkey {
+        Monkey {
             items,
             new_operation,
             divisor,
             true_monkey,
             false_monkey,
             inspection_count: 0,
-        };
+        }
     }
 
     fn evaluate_item(&mut self) -> (u64, usize) {
         let item = self.items[0];
         let (operator, num) = self.new_operation.split_at(1);
-        let mut worry_level: u64 = item.clone().into();
+        let mut worry_level: u64 = item;
         match operator {
             "*" => {
-                if num == "" {
+                if num.is_empty() {
                     worry_level = worry_level * worry_level
                 } else {
-                    worry_level = worry_level * num.to_string().parse::<u64>().unwrap()
+                    worry_level *= num.to_string().parse::<u64>().unwrap()
                 }
             }
             "+" => {
-                if num == "" {
+                if num.is_empty() {
                     worry_level = worry_level + worry_level
                 } else {
-                    worry_level = worry_level + num.to_string().parse::<u64>().unwrap()
+                    worry_level += num.to_string().parse::<u64>().unwrap()
                 }
             }
             _ => panic!("Unknown mathematical operator provided {}", operator),
@@ -82,11 +82,11 @@ impl Monkey {
     fn evaluate_item_no_devisor(&mut self, common_denom: u64) -> (u64, usize) {
         let item = self.items[0];
         let (operator, num) = self.new_operation.split_at(1);
-        let mut worry_level: u64 = item.clone();
+        let mut worry_level: u64 = item;
 
         match operator {
             "*" => {
-                if num == "" {
+                if num.is_empty() {
                     worry_level = (worry_level * worry_level) % common_denom
                 } else {
                     worry_level =
@@ -94,7 +94,7 @@ impl Monkey {
                 }
             }
             "+" => {
-                if num == "" {
+                if num.is_empty() {
                     worry_level = (worry_level + worry_level) % common_denom
                 } else {
                     worry_level =
@@ -130,7 +130,7 @@ fn first_star() -> u64 {
 
     for _ in 0..20 {
         for i in 0..monkeys.len() {
-            while monkeys[i].items.len() > 0 {
+            while !monkeys[i].items.is_empty() {
                 let throw_result = monkeys[i].evaluate_item();
                 monkeys[throw_result.1].catch_item(throw_result.0);
             }
@@ -159,7 +159,7 @@ fn second_star() -> u64 {
 
     for _ in 0..10000 {
         for i in 0..monkeys.len() {
-            while monkeys[i].items.len() > 0 {
+            while !monkeys[i].items.is_empty() {
                 let throw_result = monkeys[i].evaluate_item_no_devisor(common_denom);
                 monkeys[throw_result.1].catch_item(throw_result.0);
             }
